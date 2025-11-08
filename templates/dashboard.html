@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Mis Solicitudes de Reparación</h2>
+        <div class="mb-3">
+            <a href="{{ url_for('create_request') }}" class="btn btn-primary">Nueva Solicitud</a>
+        </div>
+        
+        {% if requests %}
+            <div class="list-group">
+                {% for req in requests %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ req.equipment_type }}</h5>
+                        <span class="badge bg-{{ 
+                            'warning' if req.status == 'pendiente' 
+                            else 'primary' if req.status == 'en_proceso' 
+                            else 'success' if req.status == 'completado' 
+                            else 'danger' 
+                        }}">
+                            {{ req.status|replace('_', ' ')|title }}
+                        </span>
+                    </div>
+                    <p class="mb-1">{{ req.description }}</p>
+                    <small class="text-muted">Creado: {{ req.created_at[:10] }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">No tienes solicitudes de reparación.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
