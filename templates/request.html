@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📦 Gestión de Solicitudes</h2>
+    <div>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">← Volver al Panel</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Filtros y Búsqueda</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label">Filtrar por Estado:</label>
+                <select class="form-select" id="statusFilter">
+                    <option value="">Todos los estados</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="en_proceso">En Proceso</option>
+                    <option value="completado">Completado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Filtrar por Equipo:</label>
+                <select class="form-select" id="equipmentFilter">
+                    <option value="">Todos los equipos</option>
+                    <option value="Men">Men (Máscara)</option>
+                    <option value="Do">Do (Peto)</option>
+                    <option value="Kote">Kote (Guantes)</option>
+                    <option value="Shinai">Shinai (Espada)</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Buscar:</label>
+                <input type="text" class="form-control" id="searchInput" placeholder="Buscar en descripciones...">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- El contenido de las solicitudes se cargaría aquí -->
+<div id="requestsContainer" class="mt-4">
+    <!-- Las solicitudes se cargarán dinámicamente -->
+</div>
+
+<script>
+// Este template está preparado para cargar datos via AJAX si lo necesitas
+document.addEventListener('DOMContentLoaded', function() {
+    // Código para cargar y filtrar solicitudes via AJAX
+    loadRequests();
+    
+    function loadRequests() {
+        fetch('/api/requests')
+            .then(response => response.json())
+            .then(data => {
+                displayRequests(data);
+            });
+    }
+    
+    function displayRequests(requests) {
+        // Implementar la visualización de solicitudes
+    }
+});
+</script>
+{% endblock %}

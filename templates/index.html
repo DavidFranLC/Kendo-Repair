@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-japanese text-center py-5 mb-4">
+    <div class="hero-content">
+        <h1 class="japanese-title display-4 mb-3">
+            <i class="fas fa-mountain icon-samurai me-3"></i>
+            道場修理
+            <i class="fas fa-mountain icon-samurai ms-3"></i>
+        </h1>
+        <p class="lead fs-4 text-dark mb-4" style="font-weight: 500;">
+            Sistema de Reparaciones para Equipo de Kendo
+        </p>
+        <p class="text-muted mb-4">
+            "武士道精神で - Con espíritu de Bushido"
+        </p>
+        
+        {% if not session.user_id %}
+        <div class="mt-5">
+            <h4 class="mb-4 japanese-title">ようこそ - Bienvenido</h4>
+            <div class="mt-3">
+                <a href="{{ url_for('login') }}" class="btn btn-japanese-primary btn-lg me-3 px-4">
+                    <i class="fas fa-door-open me-2"></i>Entrar al Dojo
+                </a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-dark btn-lg px-4">
+                    <i class="fas fa-user-ninja me-2"></i>Iniciar Camino
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if not session.user_id %}
+<div class="samurai-divider my-5"></div>
+
+<!-- Características -->
+<div class="row mt-5">
+    <div class="col-md-6 mb-4">
+        <div class="card card-japanese h-100 text-center">
+            <div class="card-body">
+                <div class="icon-samurai">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h5 class="japanese-title">修行者 - Practicante</h5>
+                <ul class="list-unstyled mt-3">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Solicitar reparaciones del Bogu</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Seguir el estado de tus equipos</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Historial completo de servicios</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Comunicación directa con el maestro armero</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card card-japanese h-100 text-center">
+            <div class="card-body">
+                <div class="icon-samurai">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h5 class="japanese-title">師範 - Maestro</h5>
+                <ul class="list-unstyled mt-3">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gestionar todas las solicitudes</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Actualizar estados de reparación</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Supervisar el trabajo del dojo</li>
+                    <li><i class="fas fa-check text-success me-2"></i>Reportes completos del taller</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- Dashboard rápido -->
+<div class="text-center py-4">
+    <h3 class="japanese-title">お帰りなさい - ¡Bienvenido de vuelta!</h3>
+    <p class="text-muted">¿Qué te gustaría hacer hoy, {{ session.user_email }}?</p>
+    
+    {% if session.user_role == 'admin' %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-japanese-primary btn-lg">
+            <i class="fas fa-tachometer-alt me-2"></i>Ir al Panel de Administración
+        </a>
+    {% else %}
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-japanese-primary btn-lg me-3">
+            <i class="fas fa-list me-2"></i>Ver Mis Solicitudes
+        </a>
+        <a href="{{ url_for('create_request') }}" class="btn btn-japanese-success btn-lg">
+            <i class="fas fa-plus me-2"></i>Nueva Solicitud
+        </a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

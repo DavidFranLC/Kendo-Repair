@@ -1,0 +1,349 @@
+/* static/css/style.css */
+
+/* Variables de colores japoneses */
+:root {
+    --primary-red: #bc002d;
+    --secondary-gold: #b38b6d;
+    --dark-charcoal: #2c2c2c;
+    --light-paper: #f5f1e6;
+    --accent-black: #1a1a1a;
+    --bamboo-green: #6b8e23;
+    --sakura-pink: #ffb7c5;
+    --text-dark: #2c1810;
+}
+
+/* Fuentes y base */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #f5f1e6 0%, #e8dfd3 100%);
+    min-height: 100vh;
+    color: var(--text-dark); /* Color de texto principal */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b38b6d' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* Asegurar que todo el texto sea visible */
+.container {
+    color: var(--text-dark);
+}
+
+.card-japanese {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #d4c6b5;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text-dark); /* Texto oscuro en cards */
+}
+
+.card-japanese:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-japanese {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #8b0000 100%);
+    color: white !important; /* Forzar texto blanco en headers */
+    border-bottom: 2px solid var(--secondary-gold);
+    font-weight: 600;
+    font-family: 'Shippori Mincho', serif;
+}
+
+/* Texto en el cuerpo de las cards */
+.card-body {
+    color: var(--text-dark) !important;
+}
+
+/* Navbar estilo japonés */
+.navbar-japanese {
+    background: linear-gradient(135deg, var(--accent-black) 0%, #2c1810 100%) !important;
+    border-bottom: 3px solid var(--primary-red);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.navbar-brand-japanese {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    background: linear-gradient(45deg, #fff, var(--secondary-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.nav-link-japanese {
+    color: var(--light-paper) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    margin: 0 2px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.nav-link-japanese:hover {
+    color: var(--secondary-gold) !important;
+    background: rgba(188, 0, 45, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Botones estilo japonés */
+.btn-japanese-primary {
+    background: linear-gradient(135deg, var(--primary-red) 0%, #8b0000 100%);
+    border: 2px solid var(--primary-red);
+    color: white !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.btn-japanese-primary:hover {
+    background: linear-gradient(135deg, #8b0000 0%, var(--primary-red) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
+    color: white !important;
+}
+
+.btn-japanese-success {
+    background: linear-gradient(135deg, var(--bamboo-green) 0%, #556b2f 100%);
+    border: 2px solid var(--bamboo-green);
+    color: white !important;
+    font-weight: 600;
+}
+
+.btn-japanese-success:hover {
+    background: linear-gradient(135deg, #556b2f 0%, var(--bamboo-green) 100%);
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+/* Títulos japoneses */
+.japanese-title {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 700;
+    color: var(--text-dark) !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.japanese-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-red), var(--secondary-gold));
+    border-radius: 2px;
+}
+
+/* Texto en lead y párrafos */
+.lead {
+    color: var(--text-dark) !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Tablas */
+.table {
+    color: var(--text-dark) !important;
+}
+
+.table-japanese th {
+    background: linear-gradient(135deg, var(--accent-black) 0%, #2c1810 100%);
+    color: white !important;
+    font-weight: 600;
+    border: none;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.table-japanese td {
+    color: var(--text-dark) !important;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Formularios */
+.form-control-japanese {
+    border: 2px solid #d4c6b5;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.3s ease;
+    color: var(--text-dark) !important;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control-japanese:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(188, 0, 45, 0.25);
+    color: var(--text-dark);
+    background: white;
+}
+
+.form-label {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+}
+
+/* Alertas */
+.alert-japanese {
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-family: 'Noto Sans JP', sans-serif;
+    border-left: 4px solid var(--primary-red);
+    color: var(--text-dark) !important;
+}
+
+.alert-success {
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+    color: #155724 !important;
+}
+
+.alert-danger {
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    color: #721c24 !important;
+}
+
+/* Hero section */
+.hero-japanese {
+    background: linear-gradient(135deg, rgba(188, 0, 45, 0.1) 0%, rgba(179, 139, 109, 0.1) 100%);
+    border-radius: 15px;
+    border: 2px solid #d4c6b5;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-dark) !important;
+}
+
+.hero-japanese::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bc002d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: var(--text-dark) !important;
+}
+
+/* Listas */
+.list-unstyled li {
+    color: var(--text-dark) !important;
+}
+
+/* Badges */
+.badge {
+    color: white !important;
+}
+
+/* Footer */
+.footer-japanese {
+    background: linear-gradient(135deg, var(--accent-black) 0%, #2c1810 100%);
+    color: white !important;
+    border-top: 3px solid var(--primary-red);
+    margin-top: 3rem;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.footer-japanese p,
+.footer-japanese small {
+    color: white !important;
+}
+
+/* Asegurar que todos los textos sean visibles */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-dark) !important;
+}
+
+p {
+    color: var(--text-dark) !important;
+}
+
+small {
+    color: var(--text-dark) !important;
+}
+
+/* Timeline */
+.timeline-item small {
+    color: var(--text-dark) !important;
+}
+
+/* Override de Bootstrap para textos */
+.text-dark {
+    color: var(--text-dark) !important;
+}
+
+/* Forzar colores en elementos específicos */
+.card-japanese .card-text,
+.card-japanese .text-muted,
+.card-japanese small {
+    color: var(--text-dark) !important;
+}
+
+/* Iconos decorativos */
+.icon-samurai {
+    font-size: 2rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.icon-bamboo {
+    color: var(--bamboo-green);
+}
+
+.icon-sakura {
+    color: var(--sakura-pink);
+}
+
+/* Formularios */
+.form-control-japanese {
+    border: 2px solid #d4c6b5;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-control-japanese:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(188, 0, 45, 0.25);
+}
+
+/* Hero section */
+.hero-japanese {
+    background: linear-gradient(135deg, rgba(188, 0, 45, 0.1) 0%, rgba(179, 139, 109, 0.1) 100%);
+    border-radius: 15px;
+    border: 2px solid #d4c6b5;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-japanese::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bc002d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}

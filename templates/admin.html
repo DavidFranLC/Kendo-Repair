@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>⚙️ Panel de Administración</h2>
+    <div class="badge bg-primary fs-6">Total Solicitudes: {{ requests|length }}</div>
+</div>
+
+<!-- Estadísticas Rápidas -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h4>{{ requests|selectattr('status', 'equalto', 'pendiente')|list|length }}</h4>
+                <p class="mb-0">Pendientes</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h4>{{ requests|selectattr('status', 'equalto', 'en_proceso')|list|length }}</h4>
+                <p class="mb-0">En Proceso</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h4>{{ requests|selectattr('status', 'equalto', 'completado')|list|length }}</h4>
+                <p class="mb-0">Completados</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary">
+            <div class="card-body text-center">
+                <h4>{{ requests|selectattr('status', 'equalto', 'cancelado')|list|length }}</h4>
+                <p class="mb-0">Cancelados</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lista de Solicitudes -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">📋 Todas las Solicitudes de Reparación</h5>
+        <small class="text-muted">Haz clic en cualquier solicitud para ver detalles completos</small>
+    </div>
+    <div class="card-body">
+        {% if requests %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Equipo</th>
+                            <th>Descripción</th>
+                            <th>Estado Actual</th>
+                            <th>Fecha</th>
+                            <th>Cambiar Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in requests %}
+                        <tr id="request-{{ request.id }}">
+                            <td>
+                                <strong>#{{ request.id }}</strong>
+                            </td>
+                            <td>
+                                <small>{{ request.user_email }}</small>
+                            </td>
+                            <td>
+                                <strong>{{ request.equipment_type }}</strong>
+                            </td>
+                            <td>
+                                <div class="request-description" 
+                                     data-bs-toggle="tooltip" 
+                                     title="{{ request.description }}">
+                                    {{ request.description[:60] }}{% if request.description|length > 60 %}...{% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge status-badge 
+                                    {% if request.status == 'pendiente' %}bg-warning
+                                    {% elif request.status == 'en_proceso' %}bg-primary
+                                    {% elif request.status == 'completado' %}bg-success
+                                    {% else %}bg-danger{% endif %}">
+                                    {{ request.status|replace('_', ' ')|title }}
+                                </span>
+                            </td>
+                            <td>
+                                <small>{{ request.created_at.split(' ')[0] }}</small>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" 
+                                            class="btn btn-sm {% if request.status == 'pendiente' %}btn-warning{% else %}btn-outline-warning{% endif %}"
+                                            onclick="updateStatus({{ request.id }}, 'pendiente')">
+                                        Pendiente
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-sm {% if request.status == 'en_proceso' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+                                            onclick="updateStatus({{ request.id }}, 'en_proceso')">
+                                        En Proceso
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-sm {% if request.status == 'completado' %}btn-success{% else %}btn-outline-success{% endif %}"
+                                            onclick="updateStatus({{ request.id }}, 'completado')">
+                                        Completado
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-sm {% if request.status == 'cancelado' %}btn-danger{% else %}btn-outline-danger{% endif %}"
+                                            onclick="updateStatus({{ request.id }}, 'cancelado')">
+                                        Cancelado
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-4">
+                <div class="alert alert-info">
+                    <h5>No hay solicitudes de reparación</h5>
+                    <p class="mb-0">Cuando los clientes creen solicitudes, aparecerán aquí.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal para detalles de solicitud -->
+<div class="modal fade" id="requestModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles de Solicitud #<span id="modalRequestId"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalRequestContent">
+                    <!-- Los detalles se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-group .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+.status-badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+.request-description {
+    cursor: help;
+}
+</style>
+
+<script>
+// Función para actualizar el estado de una solicitud
+function updateStatus(requestId, newStatus) {
+    console.log(`Actualizando solicitud ${requestId} a estado: ${newStatus}`);
+    
+    // Mostrar loading
+    const row = document.getElementById(`request-${requestId}`);
+    const originalContent = row.innerHTML;
+    row.innerHTML = `<td colspan="7" class="text-center"><div class="spinner-border spinner-border-sm"></div> Actualizando estado...</td>`;
+    
+    fetch(`/update_status/${requestId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Recargar la página para mostrar los cambios actualizados
+            showAlert('✅ Estado actualizado correctamente', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } else {
+            throw new Error(data.error || 'Error desconocido');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        row.innerHTML = originalContent;
+        showAlert('❌ Error al actualizar el estado: ' + error.message, 'error');
+    });
+}
+
+// Función para mostrar notificaciones
+function showAlert(message, type) {
+    // Crear alerta
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type === 'error' ? 'danger' : 'success'} alert-dismissible fade show position-fixed`;
+    alert.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+    alert.innerHTML = `
+        <strong>${type === 'error' ? 'Error' : 'Éxito'}:</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(alert);
+    
+    // Auto-remover después de 4 segundos
+    setTimeout(() => {
+        if (alert.parentNode) {
+            alert.remove();
+        }
+    }, 4000);
+}
+
+// Inicializar tooltips de Bootstrap
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+// Función para ver detalles completos (opcional)
+function showRequestDetails(requestId) {
+    // Aquí puedes implementar una función para mostrar detalles completos
+    console.log('Mostrar detalles de solicitud:', requestId);
+}
+</script>
+{% endblock %}

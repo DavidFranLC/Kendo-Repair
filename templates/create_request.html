@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">🛠️ Nueva Solicitud de Reparación</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="equipment_type" class="form-label">Tipo de Equipo</label>
+                        <select class="form-select" id="equipment_type" name="equipment_type" required>
+                            <option value="">Selecciona el equipo a reparar</option>
+                            <option value="Men (Máscara)">Men (Máscara)</option>
+                            <option value="Do (Peto)">Do (Peto)</option>
+                            <option value="Kote (Guantes)">Kote (Guantes)</option>
+                            <option value="Tare (Protector de Cadera)">Tare (Protector de Cadera)</option>
+                            <option value="Shinai (Espada de Bambú)">Shinai (Espada de Bambú)</option>
+                            <option value="Bokuto (Espada de Madera)">Bokuto (Espada de Madera)</option>
+                            <option value="Bogu (Equipo Completo)">Bogu (Equipo Completo)</option>
+                            <option value="Otro">Otro equipo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción del Problema</label>
+                        <textarea class="form-control" id="description" name="description" rows="5" 
+                                  placeholder="Describe detalladamente el problema, daños o reparaciones necesarias..."
+                                  required></textarea>
+                        <div class="form-text">
+                            Sé específico: menciona partes dañadas, tipo de reparación needed, etc.
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">📨 Enviar Solicitud</button>
+                        <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5>💡 Tipos de Reparaciones Comunes</h5>
+                <ul class="list-unstyled">
+                    <li>✅ <strong>Men:</strong> Rejillas rotas, almohadillas desgastadas, correas sueltas</li>
+                    <li>✅ <strong>Do:</strong> Abolladuras, correas dañadas, limpieza profunda</li>
+                    <li>✅ <strong>Kote:</strong> Palmas desgastadas, protección de nudillos, ajustes</li>
+                    <li>✅ <strong>Shinai:</strong> Cambio de tsuru, reparación de sakigawa, balance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

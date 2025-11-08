@@ -1,36 +1,194 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <h2>Mis Solicitudes de Reparación</h2>
-        <div class="mb-3">
-            <a href="{{ url_for('create_request') }}" class="btn btn-primary">Nueva Solicitud</a>
-        </div>
-        
-        {% if requests %}
-            <div class="list-group">
-                {% for req in requests %}
-                <div class="list-group-item">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ req.equipment_type }}</h5>
-                        <span class="badge bg-{{ 
-                            'warning' if req.status == 'pendiente' 
-                            else 'primary' if req.status == 'en_proceso' 
-                            else 'success' if req.status == 'completado' 
-                            else 'danger' 
-                        }}">
-                            {{ req.status|replace('_', ' ')|title }}
-                        </span>
-                    </div>
-                    <p class="mb-1">{{ req.description }}</p>
-                    <small class="text-muted">Creado: {{ req.created_at[:10] }}</small>
-                </div>
-                {% endfor %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📋 Mis Solicitudes de Reparación</h2>
+    <a href="{{ url_for('create_request') }}" class="btn btn-primary">
+        ➕ Nueva Solicitud
+    </a>
+</div>
+
+<!-- Estadísticas del usuario -->
+<div class="row mb-4">
+    <div class="col-md-2">
+        <div class="card text-white bg-secondary">
+            <div class="card-body text-center py-2">
+                <h5 class="mb-0">{{ requests|length }}</h5>
+                <small>Total</small>
             </div>
-        {% else %}
-            <div class="alert alert-info">No tienes solicitudes de reparación.</div>
-        {% endif %}
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center py-2">
+                <h5 class="mb-0">{{ requests|selectattr('status', 'equalto', 'pendiente')|list|length }}</h5>
+                <small>Pendientes</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center py-2">
+                <h5 class="mb-0">{{ requests|selectattr('status', 'equalto', 'en_proceso')|list|length }}</h5>
+                <small>En Proceso</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center py-2">
+                <h5 class="mb-0">{{ requests|selectattr('status', 'equalto', 'completado')|list|length }}</h5>
+                <small>Completados</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card text-white bg-danger">
+            <div class="card-body text-center py-2">
+                <h5 class="mb-0">{{ requests|selectattr('status', 'equalto', 'cancelado')|list|length }}</h5>
+                <small>Cancelados</small>
+            </div>
+        </div>
     </div>
 </div>
+
+{% if requests %}
+    <div class="row">
+        {% for request in requests %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 border-{% if request.status == 'pendiente' %}warning
+                                         {% elif request.status == 'en_proceso' %}primary
+                                         {% elif request.status == 'completado' %}success
+                                         {% else %}danger{% endif %}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ request.equipment_type }}</h5>
+                    <span class="badge 
+                        {% if request.status == 'pendiente' %}bg-warning text-dark
+                        {% elif request.status == 'en_proceso' %}bg-primary
+                        {% elif request.status == 'completado' %}bg-success
+                        {% else %}bg-danger{% endif %}">
+                        {{ request.status|replace('_', ' ')|title }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ request.description }}</p>
+                    
+                    <div class="request-timeline mt-3">
+                        <div class="timeline-item {% if request.status == 'pendiente' %}active{% endif %}">
+                            <span class="timeline-dot"></span>
+                            <small>Pendiente</small>
+                        </div>
+                        <div class="timeline-item {% if request.status == 'en_proceso' %}active{% endif %}">
+                            <span class="timeline-dot"></span>
+                            <small>En Proceso</small>
+                        </div>
+                        <div class="timeline-item {% if request.status == 'completado' %}active{% endif %}">
+                            <span class="timeline-dot"></span>
+                            <small>Completado</small>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <strong>ID Solicitud:</strong> #{{ request.id }}<br>
+                            <strong>Fecha de creación:</strong> {{ request.created_at }}<br>
+                            <strong>Última actualización:</strong> <span class="text-primary">Ahora mismo</span>
+                        </small>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">
+                        {% if request.status == 'pendiente' %}
+                            ⏳ Tu solicitud está en espera de ser revisada por nuestro equipo.
+                        {% elif request.status == 'en_proceso' %}
+                            🔧 Tu equipo está siendo reparado. Te mantendremos informado.
+                        {% elif request.status == 'completado' %}
+                            ✅ Tu reparación ha sido completada. ¡Listo para usar!
+                        {% else %}
+                            ❌ Esta solicitud ha sido cancelada.
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <div class="alert alert-info">
+            <h4>No tienes solicitudes de reparación</h4>
+            <p>Comienza creando tu primera solicitud para reparar tu equipo de Kendo.</p>
+            <a href="{{ url_for('create_request') }}" class="btn btn-primary btn-lg">
+                🛠️ Crear Mi Primera Solicitud
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+<style>
+.request-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 1rem 0;
+}
+.request-timeline::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #dee2e6;
+    z-index: 1;
+}
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #dee2e6;
+    margin-bottom: 0.25rem;
+    border: 2px solid white;
+}
+.timeline-item.active .timeline-dot {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.timeline-item small {
+    font-size: 0.7rem;
+    text-align: center;
+}
+</style>
+
+<script>
+// Función para actualizar la página periódicamente (cada 30 segundos)
+function startAutoRefresh() {
+    setInterval(() => {
+        // Solo recargar si el usuario está activo
+        if (!document.hidden) {
+            console.log('Actualizando dashboard...');
+            window.location.reload();
+        }
+    }, 30000); // 30 segundos
+}
+
+// Iniciar auto-refresh cuando la página cargue
+document.addEventListener('DOMContentLoaded', function() {
+    startAutoRefresh();
+});
+
+// Mostrar notificación cuando se actualice la página
+if (performance.navigation.type === 1) {
+    // Página recargada
+    console.log('Dashboard actualizado con los últimos cambios');
+}
+</script>
 {% endblock %}
