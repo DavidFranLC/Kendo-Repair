@@ -4,10 +4,6 @@
     {
       "src": "api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "build.sh",
-      "use": "@vercel/static-build"
     }
   ],
   "routes": [
@@ -21,7 +17,6 @@
     }
   ],
   "env": {
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_KEY": "@supabase_key"
+    "FLASK_ENV": "production"
   }
 }

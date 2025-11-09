@@ -1,20 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import os
-import json
 from datetime import datetime
-from dotenv import load_dotenv
+import json
 
-# Cargar variables del entorno
-load_dotenv()
+# Cargar variables del entorno - Solo desarrollo
+if os.path.exists('.env'):
+    from dotenv import load_dotenv
+    load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key')
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-production')
 
-# =============================================================================
-# SIMULACIÓN DE BASE DE DATOS (Para desarrollo sin Supabase)
-# =============================================================================
+# Configuración para Vercel (sin Supabase por ahora)
+print("=" * 60)
+print("🚀 Iniciando aplicación en Vercel")
+print("📍 Entorno:", os.environ.get('FLASK_ENV', 'production'))
+print("🔑 SUPABASE_URL:", os.environ.get('SUPABASE_URL', 'No configurada'))
+print("=" * 60)
 
-# Datos en memoria (se reinician al recargar el servidor)
+# El resto de tu código con la base de datos simulada...
 users_db = {
     'admin-user': {
         'id': 'admin-user',
