@@ -1,0 +1,1 @@
+CSS Test - Si ves este archivo, los archivos estáticos funcionan
