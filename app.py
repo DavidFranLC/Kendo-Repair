@@ -364,7 +364,7 @@ def update_status(request_id):
                 f'Actualizó estado de solicitud #{request_id} de "{old_status}" a "{new_status}"',
                 request.remote_addr
             )
-            print(f"✅ Solicitud #{request_id} actualizada: {old_status} → {new_status}")
+            print(f" Solicitud #{request_id} actualizada: {old_status} → {new_status}")
             break
     
     if request_updated:
@@ -391,6 +391,21 @@ def logout():
     session.clear()
     flash('Has cerrado sesión correctamente', 'info')
     return redirect(url_for('index'))
+
+
+WHATSAPP_NUMBER = "313 8264625"  # Reemplaza con tu número real
+WHATSAPP_MESSAGE = "Hola, me interesa preguntar por los horarios de las clases"
+
+
+@app.context_processor
+def inject_whatsapp():
+    return {
+        'whatsapp_number': WHATSAPP_NUMBER,
+        'whatsapp_message': WHATSAPP_MESSAGE
+    }
+
+
+
 
 # =============================================================================
 # API PARA OBTENER DATOS (Para AJAX)
