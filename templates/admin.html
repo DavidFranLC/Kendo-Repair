@@ -235,10 +235,163 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Función para ver detalles completos (opcional)
+
 function showRequestDetails(requestId) {
-    // Aquí puedes implementar una función para mostrar detalles completos
+    
     console.log('Mostrar detalles de solicitud:', requestId);
 }
+</script>
+<!-- Panel de Actividad de Usuarios -->
+<div class="card mt-5">
+    <div class="card-header card-header-japanese">
+        <h5 class="mb-0">
+            <i class="fas fa-history me-2"></i>📊 Actividad Reciente de Usuarios
+        </h5>
+        <small class="text-light">Monitoreo en tiempo real de las acciones del sistema</small>
+    </div>
+    <div class="card-body">
+        {% if activities %}
+            <div class="table-responsive">
+                <table class="table table-japanese table-sm">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Acción</th>
+                            <th>Descripción</th>
+                            <th>IP</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activities %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar me-2">
+                                        <i class="fas fa-user-circle 
+                                            {% if activity.action == 'login' %}text-success
+                                            {% elif activity.action == 'register' %}text-primary
+                                            {% elif activity.action == 'create_request' %}text-warning
+                                            {% else %}text-info{% endif %}"></i>
+                                    </div>
+                                    <div>
+                                        <strong>{{ activity.user_email }}</strong>
+                                        <br>
+                                        <small class="text-muted">{{ activity.user_id }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge 
+                                    {% if activity.action == 'login' %}bg-success
+                                    {% elif activity.action == 'register' %}bg-primary
+                                    {% elif activity.action == 'create_request' %}bg-warning
+                                    {% elif activity.action == 'status_update' %}bg-info
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ activity.action|replace('_', ' ')|title }}
+                                </span>
+                            </td>
+                            <td>
+                                <small>{{ activity.description }}</small>
+                            </td>
+                            <td>
+                                <code class="text-muted">{{ activity.ip_address }}</code>
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ activity.timestamp }}</small>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Estadísticas de actividad -->
+            <div class="row mt-4">
+                <div class="col-md-3">
+                    <div class="card card-japanese text-center">
+                        <div class="card-body py-3">
+                            <h4 class="text-primary">{{ activities|selectattr('action', 'equalto', 'login')|list|length }}</h4>
+                            <small>Inicios de Sesión</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-japanese text-center">
+                        <div class="card-body py-3">
+                            <h4 class="text-success">{{ activities|selectattr('action', 'equalto', 'register')|list|length }}</h4>
+                            <small>Registros</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-japanese text-center">
+                        <div class="card-body py-3">
+                            <h4 class="text-warning">{{ activities|selectattr('action', 'equalto', 'create_request')|list|length }}</h4>
+                            <small>Solicitudes Creadas</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-japanese text-center">
+                        <div class="card-body py-3">
+                            <h4 class="text-info">{{ activities|selectattr('action', 'equalto', 'status_update')|list|length }}</h4>
+                            <small>Actualizaciones</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center py-4">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No hay actividad registrada aún.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="card-footer text-muted text-center">
+        <small>
+            <i class="fas fa-sync-alt me-1"></i>
+            Actualizado en tiempo real • 
+            Mostrando últimas 10 actividades
+        </small>
+    </div>
+</div>
+
+<style>
+.user-avatar {
+    font-size: 1.5rem;
+}
+.table-sm td, .table-sm th {
+    padding: 0.5rem;
+}
+.code-ip {
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+</style>
+
+<script>
+// Auto-refresh para el panel de actividad
+function refreshActivityPanel() {
+    setTimeout(() => {
+        window.location.reload();
+    }, 30000); // 30 segundos
+}
+
+// Iniciar auto-refresh cuando la página cargue
+document.addEventListener('DOMContentLoaded', function() {
+    refreshActivityPanel();
+    
+    // Tooltips para las IPs
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
 </script>
 {% endblock %}

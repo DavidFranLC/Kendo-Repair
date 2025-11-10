@@ -347,3 +347,38 @@ small {
     position: relative;
     z-index: 2;
 }
+
+/* Estilos para el panel de actividad */
+.user-avatar {
+    font-size: 1.5rem;
+}
+
+.table-sm td, .table-sm th {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.code-ip {
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+/* Animaciones para nuevas actividades */
+@keyframes highlightNew {
+    0% { background-color: rgba(40, 167, 69, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.new-activity {
+    animation: highlightNew 2s ease-in-out;
+}
+
+/* Badges para tipos de actividad */
+.badge.bg-success { background: linear-gradient(135deg, #28a745, #20c997) !important; }
+.badge.bg-primary { background: linear-gradient(135deg, #007bff, #6f42c1) !important; }
+.badge.bg-warning { background: linear-gradient(135deg, #ffc107, #fd7e14) !important; }
+.badge.bg-info { background: linear-gradient(135deg, #17a2b8, #20c997) !important; }
