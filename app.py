@@ -393,7 +393,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-WHATSAPP_NUMBER = "321 6438982"  # Reemplaza con tu número real
+WHATSAPP_NUMBER = "3216438982"  # Reemplaza con tu número real
 WHATSAPP_MESSAGE = "Hola, me interesa preguntar por los horarios de las clases"
 
 
